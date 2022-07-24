@@ -17,17 +17,15 @@ function replaceButtonBySpinner(){
     `;
 }
 
-async function addPickUpLine(e){
+async function makeDonation(e){
     e.preventDefault();
-    const line = mainBody.querySelector('input').value;
-    const pickUpLineMessage = {id: 0, line};
+    const value = mainBody.querySelector('input').value;
     
     replaceButtonBySpinner();
     
-    await tokenContract.methods.addPickUpLine(pickUpLineMessage).send({ from: userAccount})
-    .on('receipt', () =>{
+    await tokenContract.methods.makeDonationToOwner().send({ from: userAccount, value: web3.utils.toWei(value, "ether") })
+    .on('receipt', () => {
         replaceSpinnerByButtonAndClearInput();
-        alert('added pick up line with success!');
     })
     .on('error', () => {
         replaceSpinnerByButtonAndClearInput();
@@ -35,24 +33,24 @@ async function addPickUpLine(e){
     });
 }
 
-function addEventListenerToPickUpForm(){
+function addEventListenerToDonationForm(){
     const form = document.querySelector('form');
-    form.removeEventListener('submit', addPickUpLine);
-    form.addEventListener('submit',addPickUpLine);
+    form.removeEventListener('submit', makeDonation);
+    form.addEventListener('submit', makeDonation);
 }
 
-function renderPickUpLineForm(){
+function renderMakeDonationForm(){
     mainBody.innerHTML = `
     <div class="col-6 mt-5 p-5 rounded mx-auto shadow-lg">
         <form class="mx-auto">
-            <h1 class="text-center text-muted">Add pick up line</h1>
-            <input type="text" class="form-control" placeholder="Enter pick up line" maxlength="255" required>
+            <h1 class="text-center text-muted">Send money to owner</h1>
+            <input type="number" step="0.01" class="form-control" placeholder="amount" maxlength="255" required>
             <div class="text-center mt-3">
-                <button class="btn btn-primary w-75" type="submit">Create</button>
+                <button class="btn btn-primary w-75" type="submit">Send</button>
             </div>
         </form>
     </div>
     `;
 
-    addEventListenerToPickUpForm();
+    addEventListenerToDonationForm();
 }

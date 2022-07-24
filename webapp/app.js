@@ -167,10 +167,16 @@ window.ethereum.on('accountsChanged', async function (accounts) {
 
 // init web 3 variables
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-const contractAddress = '0x5683E8B1C1D49Cac830E48191dB5298FD2d80e3A';
+const contractAddress = '0xD8ab959468C9Ac8a7a0743c9aD67dF8814ace899';
 const mainBody = document.getElementById('mainBody');
 let tokenContract = new web3.eth.Contract(pickUpLineAbi, contractAddress);
 let userAccount;
+
+// subscribe to smart contract event
+tokenContract.events.PickUpLineAdded()
+.on('data', () => {
+  document.getElementById("seePickUpLine").dispatchEvent(new Event('click'));
+});
 
 async function getAccount(){
   userAccount = (await web3.eth.getAccounts())[0];

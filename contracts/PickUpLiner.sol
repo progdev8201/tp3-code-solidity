@@ -31,11 +31,8 @@ contract PickUpLiner {
         emit PickUpLineAdded(_pickUpLine);
     }
 
-    function completePickUpLine(uint256 _pickUpLineId) pickUpLineExist(_pickUpLineId) notCompletedBefore(msg.sender, _pickUpLineId) public {
-        // add user to pick up line
+    function completePickUpLine(uint256 _pickUpLineId) pickUpLineExist(_pickUpLineId) notCompletedBefore(_pickUpLineId) public {
         _userToPickUpLine[msg.sender].push(_pickUpLineId);
-
-        // payable(msg.sender).transfer(0.01 ether);
     }
 
     // getters
@@ -85,8 +82,8 @@ contract PickUpLiner {
     }
 
     // add private methods for that then simply call the private method in require
-    modifier notCompletedBefore(address _sender, uint256 _pickUpLineId) {
-        require(!_isCompleted(_sender, _pickUpLineId), 'Contract is already completed');
+    modifier notCompletedBefore(uint256 _pickUpLineId) {
+        require(!_isCompleted(msg.sender, _pickUpLineId), 'Contract is already completed');
         _;
     }
 
