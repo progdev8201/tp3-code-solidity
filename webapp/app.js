@@ -199,7 +199,7 @@ window.ethereum.on("accountsChanged", async function (accounts) {
 
 // init web 3 variables
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-const contractAddress = "0xf004F054F9962e213f46DE5279Cf1b90b0D5DbBf";
+const contractAddress = "0xD832b5A07bE416157942e4D6D7688844406E69bf";
 const mainBody = document.getElementById("mainBody");
 let tokenContract = new web3.eth.Contract(pickUpLineAbi, contractAddress);
 let userAccount = '';
