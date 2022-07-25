@@ -1,6 +1,7 @@
 const menu = document.getElementById("menu");
 const buttons = [
     { id: "addPickUpLine", text: "Add pick up lines" },
+    { id: "setCompletedPickUpLine", text: "Set completed pick up line amount" },
     { id: "seePickUpLine", text: "See pick up lines" },
     { id: "makeDonation", text: "Make donation to owner" },
 ];
@@ -12,15 +13,16 @@ async function isOwner() {
 async function renderMenu() {
     const ownerConnected = await isOwner();
     menu.innerHTML = "";
+    mainBody.innerHTML = "";
 
     for (let index = 0; index < buttons.length; index++) {
-        if (index == 0 && !ownerConnected) continue;
+        if (((index == 0 || index == 1) && !ownerConnected) || (index == 3 && ownerConnected)) continue;
         const button = buttons[index];
 
         menu.insertAdjacentHTML(
             "beforeEnd",
             `
-            <div class="${ownerConnected ? "col-4" : "col-6"}">
+            <div class="${ownerConnected ? 'col-4' : 'col-6'}">
                 <button id="${button.id}" class="btn btn-primary w-100 shadow">
                     ${button.text}
                 </button>
@@ -29,14 +31,14 @@ async function renderMenu() {
         );
     }
 
-    // add event listeners
     addEventListenersToButtons();
 }
 
 function addEventListenersToButtons() {
     const addPickUpLineButton = document.getElementById("addPickUpLine");
     const seePickUpLineButton = document.getElementById("seePickUpLine");
-    const makeDonationToOwner = document.getElementById("makeDonation");
+    const makeDonationToOwnerButton = document.getElementById("makeDonation");
+    const setCompletedPickUpLineButton = document.getElementById("setCompletedPickUpLine");
 
     if (addPickUpLineButton) {
         addPickUpLineButton.addEventListener("click", function () {
@@ -48,7 +50,15 @@ function addEventListenersToButtons() {
         await renderPickUpLines();
     });
 
-    makeDonationToOwner.addEventListener("click", function () {
-        renderMakeDonationForm();
-    });
+    if (makeDonationToOwnerButton) {
+        makeDonationToOwnerButton.addEventListener("click", function () {
+            renderMakeDonationForm();
+        });
+    }
+
+    if (setCompletedPickUpLineButton) {
+        setCompletedPickUpLineButton.addEventListener("click", function() {
+            renderSetCompletedPickUpLineForm();
+        });
+    }
 }

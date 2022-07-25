@@ -26,12 +26,20 @@ async function getPickUpLines() {
 async function renderPickUpLines() {
     mainBody.innerHTML = '';
 
-    (await getPickUpLines()).forEach(pickUpLine =>mainBody.insertAdjacentHTML("beforeend",`${getPickUpLineHtml(pickUpLine)}`));
+    (await getPickUpLines()).forEach(pickUpLine => mainBody.insertAdjacentHTML("beforeend",`${getPickUpLineHtml(pickUpLine)}`));
 
-    // add event listener to all buttons
     mainBody.querySelectorAll("button").forEach(button => {
         button.addEventListener("click", async () => {
-            tokenContract.methods.completePickUpLine(parseInt(button.getAttribute('id'))).send({ from: userAccount });
+            tokenContract.methods.completePickUpLine(parseInt(button.getAttribute('id'))).send({ from: userAccount })
+            .on('receipt', () =>{
+                initCompletedAmountOfPickUpLine();
+                alert('Completed pick up line with success!');
+            })
+            .on('error', (error) => {
+                if (error.message.includes('is already completed')) {
+                    alert('You cannot complete a pick up line twice');
+                }
+            });
         });
     });
 }

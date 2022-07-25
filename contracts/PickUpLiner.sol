@@ -7,6 +7,7 @@ contract PickUpLiner {
     PickUpLine[] private pickUpLines;
     mapping(address => uint256[]) private _userToPickUpLine;
     address public owner;
+    uint256 public completedPickUpLinesAmount = 0;
 
     struct PickUpLine {
         uint256 id;
@@ -21,6 +22,10 @@ contract PickUpLiner {
         payable(owner).transfer(msg.value);
     }
 
+    function setAmountOfPickUpLine(uint256 _completedPickUpLinesAmount) public onlyOwner {
+        completedPickUpLinesAmount = _completedPickUpLinesAmount;
+    }
+
     /**
      * @dev Will add pick up line to pick up line array
      */
@@ -33,6 +38,7 @@ contract PickUpLiner {
 
     function completePickUpLine(uint256 _pickUpLineId) pickUpLineExist(_pickUpLineId) notCompletedBefore(_pickUpLineId) public {
         _userToPickUpLine[msg.sender].push(_pickUpLineId);
+        completedPickUpLinesAmount++;
     }
 
     // getters

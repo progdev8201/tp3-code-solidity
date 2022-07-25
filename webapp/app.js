@@ -31,6 +31,20 @@ const pickUpLineAbi = [
   },
   {
     "inputs": [],
+    "name": "completedPickUpLinesAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -40,13 +54,28 @@ const pickUpLineAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
     "name": "makeDonationToOwner",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_completedPickUpLinesAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setAmountOfPickUpLine",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -104,7 +133,8 @@ const pickUpLineAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -135,7 +165,8 @@ const pickUpLineAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -148,44 +179,50 @@ const pickUpLineAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ];
 
 // check if account connected
 if (typeof ethereum !== "undefined") {
-  ethereum.request({ method: "eth_requestAccounts" });
+    ethereum.request({ method: "eth_requestAccounts" });
 } else {
-  alert("Veuillez SVP installer une wallet MetaMask");
+    alert("Veuillez SVP installer une wallet MetaMask");
 }
 
 // check if account is changed
-window.ethereum.on('accountsChanged', async function (accounts) {
-  userAccount = accounts[0];
-  await renderMenu();
+window.ethereum.on("accountsChanged", async function (accounts) {
+    userAccount = accounts[0];
+    await renderMenu();
 });
 
 // init web 3 variables
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-const contractAddress = '0xD8ab959468C9Ac8a7a0743c9aD67dF8814ace899';
-const mainBody = document.getElementById('mainBody');
+const contractAddress = "0xf004F054F9962e213f46DE5279Cf1b90b0D5DbBf";
+const mainBody = document.getElementById("mainBody");
 let tokenContract = new web3.eth.Contract(pickUpLineAbi, contractAddress);
-let userAccount;
+let userAccount = '';
 
 // subscribe to smart contract event
-tokenContract.events.PickUpLineAdded()
-.on('data', () => {
-  document.getElementById("seePickUpLine").dispatchEvent(new Event('click'));
+tokenContract.events.PickUpLineAdded().on("data", () => {
+    document.getElementById("seePickUpLine").dispatchEvent(new Event("click"));
+    initCompletedAmountOfPickUpLine();
 });
 
-async function getAccount(){
-  userAccount = (await web3.eth.getAccounts())[0];
+async function getAccount() {
+    userAccount = (await web3.eth.getAccounts())[0];
+}
+
+async function initCompletedAmountOfPickUpLine() {
+    document.getElementById("CompletedPickUpLineAmount").innerHTML = await tokenContract.methods.completedPickUpLinesAmount().call();
 }
 
 // init all
-async function initAll(){
-  await getAccount();
-  await renderMenu();
+async function initAll() {
+    await getAccount();
+    await renderMenu();
+    await initCompletedAmountOfPickUpLine();
 }
 
 initAll();

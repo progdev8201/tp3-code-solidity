@@ -26,13 +26,15 @@ async function addPickUpLine(e){
     
     await tokenContract.methods.addPickUpLine(pickUpLineMessage).send({ from: userAccount})
     .on('receipt', () =>{
-        replaceSpinnerByButtonAndClearInput();
         alert('added pick up line with success!');
     })
-    .on('error', () => {
-        replaceSpinnerByButtonAndClearInput();
-        alert('Vous n\'avez pas les droits');
+    .on('error', (error) => {
+        if (error.message.includes('You\'re not the owner')) {
+            alert('You do not have the rights');
+        }
     });
+    
+    replaceSpinnerByButtonAndClearInput();
 }
 
 function addEventListenerToPickUpForm(){
