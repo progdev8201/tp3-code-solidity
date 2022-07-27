@@ -1,0 +1,42 @@
+# Étudiant 1
+Nom complet: Fabory Bangoura
+Numéro de dossier (NI): 536901207
+ 
+####################################################################################################
+Lien [etherscan.io] du contrat intelligent déployé: https://ropsten.etherscan.io/address/0xD832b5A07bE416157942e4D6D7688844406E69bf
+Lien de la vidéo: https://www.loom.com/share/9d4ec63d68524a8cab4e1754c37fbcd1
+Lien github: https://github.com/progdev8201/tp3-code-solidity
+Lien de l'application web: https://tp3-code-solidity.vercel.app/
+####################################################################################################
+Ex: https://etherscan.io/address/0xb84f8e4a4286f93c93564e72fdb893e34ca53eb0#code
+
+
+Critères d'évaluation
+---------------------
+/20 : Rapport vidéo (Qualité des réponses, explications et justifications)
+    Commentaires :
+
+/40 : Interface utilisateur + Contrat intelligent
+    Commentaires :
+
+/15 : Évaluation générale de la sécurité de l'application
+    Commentaires :
+
+/10 : Déploiement du contrat intelligent sur un réseau Ethereum de test
+    Commentaires :
+
+/5 : Qualité du code (noms de variables, nom des fonctions, etc)
+    Commentaires :
+
+
+Pénalités pour non-respect des consignes
+----------------------------------------
+
+
+
+Autres commentaires du correcteur
+---------------------------------
+
+
+
+Total: /90

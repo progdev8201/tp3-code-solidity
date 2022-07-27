@@ -207,7 +207,6 @@ let userAccount = '';
 // subscribe to smart contract event
 tokenContract.events.PickUpLineAdded().on("data", () => {
     document.getElementById("seePickUpLine").dispatchEvent(new Event("click"));
-    initCompletedAmountOfPickUpLine();
 });
 
 async function getAccount() {

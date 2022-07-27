@@ -1,4 +1,0 @@
--J'ai ajouté pick up lines added avec le param lates pick up line comme ca je n'ai pas besoin de refetch la liste au complet
-- J'ai rendu mon array private et j'ai ajouté une fonction pour aller prendre des parties de mon array
-, car si je prenais ma liste de array au complet si jamais j'aurais eu un trop grand nombre d'item je n'aurais pas pu faire
-ma requête.
